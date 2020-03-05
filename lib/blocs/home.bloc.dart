@@ -16,6 +16,7 @@ class HomeBloc extends ChangeNotifier {
       this.bitcoin = data;
       getBitcoinColor();
       notifyListeners();
+      return data;
     });
   }
 
