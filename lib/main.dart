@@ -1,4 +1,5 @@
 import 'package:ezfine/blocs/home.bloc.dart';
+import 'package:ezfine/themes/main.theme.dart';
 import 'package:ezfine/ui/pages/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,10 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ezfine',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: mainTheme(),
       home: Home(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
