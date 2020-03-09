@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:ezfine/blocs/home.bloc.dart';
 import 'package:ezfine/models/bitcoin.model.dart';
 import 'package:ezfine/ui/widgets/loader.widget%20copy.dart';
@@ -7,8 +9,15 @@ import 'package:ezfine/ui/widgets/wallet-button.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   HomeBloc bloc;
+  bool _isBlurred = false;
+
   @override
   Widget build(BuildContext context) {
     bloc = Provider.of<HomeBloc>(context);
@@ -24,28 +33,47 @@ class Home extends StatelessWidget {
               Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 100,
+                    height: 80,
                   ),
                   Center(
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          MainCard(),
-                          SizedBox(
-                            height: 100,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              MainCard(),
+                              SizedBox(
+                                height: 60,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 45),
+                                child: PurchaseButtons(),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 45),
-                            child: PurchaseButtons(),
+                        ),
+                        BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: _isBlurred ? 2.5 : 0,
+                            sigmaY: _isBlurred ? 2.5 : 0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 290, top: 60),
-                            child: WalletButton(),
+                          child: Container(
+                            height: 1,
+                            width: 1,
+                            decoration: new BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                            ),
+                            child: Text(""),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 290, top: 60),
+                      child: WalletButton(
+                        callback: blurScreen,
+                      )),
                 ],
               ),
             ],
@@ -59,5 +87,15 @@ class Home extends StatelessWidget {
     BitcoinModel bitcoin = await bloc.getBitcoin();
     bloc.bitcoin = bitcoin;
     return null;
+  }
+
+  blurScreen() {
+    setState(() {
+      if (_isBlurred == false) {
+        _isBlurred = true;
+      } else {
+        _isBlurred = false;
+      }
+    });
   }
 }

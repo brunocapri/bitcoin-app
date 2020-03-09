@@ -21,7 +21,8 @@ class HomeBloc extends ChangeNotifier {
   }
 
   getBitcoinColor() {
-    var priceRatio = bitcoin.price.compareTo(bitcoin.dayHigh);
+    var priceRatio = bitcoin.price - bitcoin.dayHigh;
+    print(priceRatio);
     bitcoinColor = Color(0xFF04e774);
     if (priceRatio <= -100) {
       bitcoinColor = Color(0XFFfd5352);
