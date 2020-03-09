@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:ezfine/blocs/home.bloc.dart';
 import 'package:ezfine/models/bitcoin.model.dart';
+
 import 'package:ezfine/ui/widgets/loader.widget%20copy.dart';
 import 'package:ezfine/ui/widgets/main-card.widget.dart';
 import 'package:ezfine/ui/widgets/purchase-buttons.widget.dart';

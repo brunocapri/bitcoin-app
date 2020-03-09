@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const brightness = Brightness.light;
 const primaryColor = const Color(0xFF00C569);
 const lightColor = const Color(0xFFFFFFFF);
-const backgroundColor = const Color(0xFFf5d5f1);
+const backgroundColor = const Color(0xFFf7e1f5);
 
 ThemeData mainTheme() {
   return ThemeData(

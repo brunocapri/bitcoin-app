@@ -1,3 +1,5 @@
+import 'package:ezfine/ui/pages/buy-modal.page.dart';
+import 'package:ezfine/ui/pages/sell-modal.page.dart';
 import 'package:flutter/material.dart';
 
 class PurchaseButtons extends StatelessWidget {
@@ -18,7 +20,13 @@ class PurchaseButtons extends StatelessWidget {
                   height: 50,
                   width: 130,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                            pageBuilder: (context, _, __) => BuyModal(),
+                            opaque: false),
+                      );
+                    },
                     child: Text(
                       "Buy",
                       style: TextStyle(fontSize: 20),
@@ -55,7 +63,13 @@ class PurchaseButtons extends StatelessWidget {
                   height: 50,
                   width: 130,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                            pageBuilder: (context, _, __) => SellModal(),
+                            opaque: false),
+                      );
+                    },
                     child: Text(
                       "Sell",
                       style: TextStyle(fontSize: 20),
