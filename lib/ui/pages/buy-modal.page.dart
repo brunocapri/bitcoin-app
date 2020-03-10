@@ -1,6 +1,9 @@
 import 'dart:ui';
 
+import 'package:ezfine/blocs/home.bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../wheel_spinner.dart';
 import 'home.page.dart';
@@ -11,9 +14,11 @@ class BuyModal extends StatefulWidget {
 }
 
 class _BuyModalState extends State<BuyModal> {
+  final price = NumberFormat("#,##0.00", "pt_BR");
   double _counter = 0.0;
   @override
   Widget build(BuildContext context) {
+    HomeBloc bloc = Provider.of<HomeBloc>(context);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.01),
       body: Stack(
@@ -32,7 +37,7 @@ class _BuyModalState extends State<BuyModal> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 550, left: 30),
+            padding: const EdgeInsets.only(top: 600, left: 30),
             child: Stack(
               children: <Widget>[
                 ClipRect(
@@ -50,21 +55,60 @@ class _BuyModalState extends State<BuyModal> {
                       width: 200.0,
                       height: 200.0,
                       child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        child: Row(
                           children: <Widget>[
-                            WheelSpinner(
-                              value: _counter.toDouble(),
-                              min: 0.0,
-                              max: 20.0,
-                              onSlideUpdate: (val) => setState(
-                                () {
-                                  _counter = val;
-                                },
+                            Container(
+                              width: 100,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    _counter.toStringAsFixed(2),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("BTC"),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    height: 1,
+                                    width: 60,
+                                    child: Text(""),
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    "${price.format(_counter * bloc.bitcoin.price)}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("USD"),
+                                ],
                               ),
                             ),
-                            Text(_counter.toStringAsFixed(2),
-                                textScaleFactor: 2.0)
+                            Flexible(
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 2, top: 5),
+                                      child: WheelSpinner(
+                                        value: _counter.toDouble(),
+                                        min: 0,
+                                        max: 20,
+                                        onSlideUpdate: (val) => setState(
+                                          () {
+                                            _counter = val;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

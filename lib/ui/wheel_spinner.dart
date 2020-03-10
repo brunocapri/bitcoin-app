@@ -140,14 +140,7 @@ class _WheelSpinnerState extends State<WheelSpinner>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  minText != null
-                      ? Text(minText, style: labelStyle)
-                      : Container(),
-                  maxText != null
-                      ? Text(maxText, style: labelStyle)
-                      : Container(),
-                ],
+                children: <Widget>[],
               ),
             ),
           ),
@@ -174,7 +167,7 @@ class _WheelSpinnerState extends State<WheelSpinner>
                                 0,
                               ),
                               child: Divider(
-                                color: widget.dividerColor ?? Colors.grey[600],
+                                color: widget.dividerColor ?? Colors.grey[400],
                               ),
                             );
                           },
@@ -196,8 +189,8 @@ class _WheelSpinnerState extends State<WheelSpinner>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('+', style: labelStyle),
                   Text('-', style: labelStyle),
+                  Text('+', style: labelStyle),
                 ],
               ),
             ),
@@ -228,7 +221,7 @@ class _WheelSpinnerState extends State<WheelSpinner>
           Border.all(
             width: 1,
             style: BorderStyle.solid,
-            color: Colors.grey[600],
+            color: Colors.grey[300],
           ),
       borderRadius: widget.borderRadius ?? BorderRadius.circular(3.5),
     );
