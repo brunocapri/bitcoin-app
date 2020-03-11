@@ -1,3 +1,6 @@
+import 'package:ezfine/ui/pages/budget.page.dart';
+import 'package:ezfine/ui/pages/home.page.dart';
+import 'package:ezfine/ui/pages/profit.page.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -13,11 +16,8 @@ class _WalletButtonState extends State<WalletButton>
     with TickerProviderStateMixin {
   AnimationController _controller;
 
-  static const List<IconData> icons = const [
-    Icons.sms,
-    Icons.mail,
-    Icons.phone
-  ];
+  static const List<String> menus = const ["Profit", "Budget"];
+  static List<Widget> pages = [ProfitPage(), BudgetPage()];
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _WalletButtonState extends State<WalletButton>
     Color foregroundColor = Theme.of(context).accentColor;
     return Column(
         mainAxisSize: MainAxisSize.min,
-        children: new List.generate(icons.length, (int index) {
+        children: new List.generate(menus.length, (int index) {
           Widget child = new Container(
             height: 70.0,
             width: 70,
@@ -41,15 +41,19 @@ class _WalletButtonState extends State<WalletButton>
             child: new ScaleTransition(
               scale: new CurvedAnimation(
                 parent: _controller,
-                curve: new Interval(0.0, 1.0 - index / icons.length / 2.0,
+                curve: new Interval(0.0, 1.0 - index / menus.length / 2.0,
                     curve: Curves.easeOut),
               ),
               child: new FloatingActionButton(
                 heroTag: null,
                 backgroundColor: backgroundColor,
-                mini: true,
-                child: new Icon(icons[index], color: foregroundColor),
-                onPressed: () {},
+                child: new Text(
+                  menus[index],
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => pages[index]));
+                },
               ),
             ),
           );
