@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     bloc = Provider.of<HomeBloc>(context);
     return Scaffold(
+      floatingActionButton: WalletButton(callback: blurScreen),
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: RefreshIndicator(
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
               Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 80,
+                    height: 60,
                   ),
                   Center(
                     child: Stack(
@@ -70,11 +71,11 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 290, top: 60),
-                      child: WalletButton(
-                        callback: blurScreen,
-                      )),
+                  // Padding(
+                  //     padding: const EdgeInsets.only(left: 290, top: 60),
+                  //     child: WalletButton(
+                  //       callback: blurScreen,
+                  //     )),
                 ],
               ),
             ],

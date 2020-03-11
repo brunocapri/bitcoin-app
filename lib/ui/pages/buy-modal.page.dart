@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:ezfine/blocs/home.bloc.dart';
+import 'package:ezfine/models/bitcoin.model.dart';
+import 'package:ezfine/ui/widgets/loader.widget%20copy.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +18,10 @@ class BuyModal extends StatefulWidget {
 class _BuyModalState extends State<BuyModal> {
   final price = NumberFormat("#,##0.00", "pt_BR");
   double _counter = 0.0;
+  HomeBloc bloc;
   @override
   Widget build(BuildContext context) {
-    HomeBloc bloc = Provider.of<HomeBloc>(context);
+    bloc = Provider.of<HomeBloc>(context);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.01),
       body: Stack(
@@ -37,7 +40,7 @@ class _BuyModalState extends State<BuyModal> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 600, left: 30),
+            padding: const EdgeInsets.only(top: 560, left: 30),
             child: Stack(
               children: <Widget>[
                 ClipRect(
@@ -53,60 +56,76 @@ class _BuyModalState extends State<BuyModal> {
                           border: Border.all(color: Colors.white, width: 3)),
                       alignment: Alignment.center,
                       width: 200.0,
-                      height: 200.0,
+                      height: 250.0,
                       child: Container(
-                        child: Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Container(
-                              width: 100,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    _counter.toStringAsFixed(2),
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 100,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        _counter.toStringAsFixed(2),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text("BTC"),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        height: 1,
+                                        width: 60,
+                                        child: Text(""),
+                                        color: Colors.black,
+                                      ),
+                                      Loader(
+                                        object: bloc.bitcoin,
+                                        callback: bitcoinToUSD,
+                                      ),
+                                      Text("USD"),
+                                    ],
                                   ),
-                                  Text("BTC"),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(top: 10, bottom: 10),
-                                    height: 1,
-                                    width: 60,
-                                    child: Text(""),
-                                    color: Colors.black,
-                                  ),
-                                  Text(
-                                    "${price.format(_counter * bloc.bitcoin.price)}",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text("USD"),
-                                ],
-                              ),
-                            ),
-                            Flexible(
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 2, top: 5),
-                                      child: WheelSpinner(
-                                        value: _counter.toDouble(),
-                                        min: 0,
-                                        max: 20,
-                                        onSlideUpdate: (val) => setState(
-                                          () {
-                                            _counter = val;
-                                          },
+                                ),
+                                Flexible(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 2, top: 5),
+                                          child: WheelSpinner(
+                                            value: _counter.toDouble(),
+                                            min: 0,
+                                            max: 20,
+                                            onSlideUpdate: (val) => setState(
+                                              () {
+                                                _counter = val;
+                                              },
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 150,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF9ce2b3),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: FlatButton(
+                                onPressed: () {},
+                                child: Text("Confirm",
+                                    style: TextStyle(color: Colors.white)),
                               ),
                             ),
                           ],
@@ -120,6 +139,13 @@ class _BuyModalState extends State<BuyModal> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget bitcoinToUSD() {
+    return Text(
+      "${price.format(_counter * bloc.bitcoin.price)}",
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     );
   }
 }
